@@ -16,11 +16,11 @@ const CartAnimation = ({ startPosition, endPosition, onComplete }: CartAnimation
     document.documentElement.style.setProperty('--tx', `${endPosition.x - startPosition.x}px`);
     document.documentElement.style.setProperty('--ty', `${endPosition.y - startPosition.y}px`);
 
-    // Handle animation end
+    // Handle animation end with longer duration
     const timeout = setTimeout(() => {
       setShow(false);
       onComplete();
-    }, 1000); // Match animation duration
+    }, 1500); // Increased animation duration from 1000ms to 1500ms
 
     return () => clearTimeout(timeout);
   }, [endPosition, startPosition, onComplete]);
@@ -35,8 +35,8 @@ const CartAnimation = ({ startPosition, endPosition, onComplete }: CartAnimation
         top: `${startPosition.y}px`,
       }}
     >
-      <div className="p-2 bg-takshashil-blue text-white rounded-full">
-        <Truck className="h-6 w-6" />
+      <div className="p-3 bg-takshashil-blue text-white">
+        <Truck className="h-10 w-10" />
       </div>
     </div>
   );
