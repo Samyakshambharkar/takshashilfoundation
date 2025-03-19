@@ -1,73 +1,84 @@
-
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
-import Quote from "@/components/ui/Quote";
 import { Button } from "@/components/ui/button";
-import { 
-  BookOpen, 
-  GraduationCap, 
-  Calendar, 
-  HelpingHand,
-  Users,
-  CheckCircle2
-} from "lucide-react";
-import { Link } from "react-router-dom";
+import { CheckCircle, Send } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
 
 const Volunteer = () => {
+  const { toast } = useToast();
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [formSubmitted, setFormSubmitted] = useState(false);
+  const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    phone: "",
+    address: "",
+    interest: "",
+    experience: "",
+    availability: "weekends",
+    message: ""
+  });
+
   // Scroll to top on page load
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
-  
-  const roles = [
-    {
-      title: "Library Assistant",
-      description: "Help manage our library, organize books, and assist visitors in finding resources.",
-      icon: BookOpen,
-      commitment: "4-8 hours per week",
-    },
-    {
-      title: "Subject Mentor",
-      description: "Share your knowledge by tutoring students in your area of expertise.",
-      icon: GraduationCap,
-      commitment: "2-6 hours per week",
-    },
-    {
-      title: "Event Organizer",
-      description: "Help plan and execute educational events, workshops, and community programs.",
-      icon: Calendar,
-      commitment: "Project-based",
-    },
-    {
-      title: "Community Outreach",
-      description: "Spread awareness about our foundation and help reach more people in need.",
-      icon: HelpingHand,
-      commitment: "Flexible",
-    },
-  ];
-  
-  const benefits = [
-    "Opportunity to make a meaningful impact on marginalized communities",
-    "Develop leadership and teaching skills",
-    "Connect with like-minded individuals committed to social justice",
-    "Gain experience in the education and non-profit sector",
-    "Certificate of appreciation and letters of recommendation",
-    "Regular volunteer appreciation events"
-  ];
 
-  const testimonials = [
-    {
-      quote: "Volunteering at Takshashil has been the most rewarding experience of my life. Seeing the direct impact of our work on students' lives is incredibly fulfilling.",
-      name: "Priya Sharma",
-      role: "Subject Mentor, 2 years",
-    },
-    {
-      quote: "As a library assistant, I've witnessed firsthand how access to books can transform lives. The foundation does incredible work, and I'm proud to be part of it.",
-      name: "Rahul Patel",
-      role: "Library Assistant, 1 year",
-    },
-  ];
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    const { id, value } = e.target;
+    setFormData(prev => ({ ...prev, [id]: value }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+
+    try {
+      // Simulate sending form data to email
+      console.log("Sending volunteer form data:", formData);
+      console.log("Form would be sent to: samyaks.cseb19@sbjit.edu.in");
+      
+      // Simulate API call delay
+      await new Promise(resolve => setTimeout(resolve, 1500));
+      
+      // Show success message
+      toast({
+        title: "Form Submitted",
+        description: "Thank you for volunteering. We will get back to you soon.",
+      });
+      
+      // Reset form
+      setFormData({
+        firstName: "",
+        lastName: "",
+        email: "",
+        phone: "",
+        address: "",
+        interest: "",
+        experience: "",
+        availability: "weekends",
+        message: ""
+      });
+      
+      setFormSubmitted(true);
+      
+      // Reset submitted state after 5 seconds
+      setTimeout(() => {
+        setFormSubmitted(false);
+      }, 5000);
+    } catch (error) {
+      console.error("Error submitting form:", error);
+      toast({
+        title: "Error",
+        description: "There was an error submitting the form. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -75,63 +86,198 @@ const Volunteer = () => {
       
       <main className="flex-grow pt-20">
         {/* Hero Section */}
-        <section className="py-16 md:py-24 bg-takshashil-blue/5">
+        <section className="py-16 md:py-24 bg-gradient-to-b from-takshashil-blue/10 to-white">
           <div className="container mx-auto px-4">
-            <div className="max-w-5xl mx-auto">
-              <div className="text-center mb-16">
-                <h1 className="text-4xl md:text-5xl font-bold mb-6 text-takshashil-navy">
-                  Become a <span className="text-takshashil-blue">Volunteer</span>
-                </h1>
-                <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-                  Join our mission to empower communities through education and make a 
-                  meaningful difference in the lives of others.
-                </p>
-              </div>
+            <div className="max-w-5xl mx-auto text-center">
+              <h1 className="text-4xl md:text-5xl font-bold mb-6 text-takshashil-navy">
+                Become a <span className="text-takshashil-blue">Volunteer</span>
+              </h1>
+              <p className="text-xl text-gray-600 max-w-3xl mx-auto mb-8">
+                Join our team of dedicated volunteers and help us make education accessible 
+                to all. Your time and skills can make a meaningful difference.
+              </p>
               
-              <div className="glass-card p-8 md:p-10 rounded-xl shadow-lg">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
-                  <div>
-                    <div className="inline-block px-3 py-1 mb-4 rounded-full bg-takshashil-gold/10 text-takshashil-gold text-sm font-medium">
-                      Join Our Community
-                    </div>
-                    <h2 className="text-2xl md:text-3xl font-bold mb-4 text-takshashil-navy">
-                      Make an Impact Through Volunteering
-                    </h2>
-                    <p className="text-gray-600 mb-6">
-                      Takshashil Foundation relies on dedicated volunteers to help us 
-                      fulfill our mission of providing free educational resources and 
-                      support to marginalized communities.
+              <div className="glass-card p-8 md:p-12 rounded-xl shadow-md mt-12 text-left">
+                <h2 className="text-2xl md:text-3xl font-bold mb-6 text-takshashil-navy text-center">
+                  Volunteer Application
+                </h2>
+                
+                {formSubmitted ? (
+                  <div className="text-center py-8">
+                    <CheckCircle className="h-16 w-16 text-green-500 mx-auto mb-4" />
+                    <h3 className="text-xl font-semibold mb-2 text-takshashil-navy">
+                      Application Submitted Successfully!
+                    </h3>
+                    <p className="text-gray-600 mb-4">
+                      Thank you for your interest in volunteering with Takshashil Foundation. 
+                      We'll review your application and contact you soon.
                     </p>
-                    <p className="text-gray-600 mb-6">
-                      Whether you can commit to regular hours or occasional support, 
-                      your contribution can make a significant difference in helping 
-                      us create educational opportunities for those who need them most.
-                    </p>
-                    <Button asChild className="bg-takshashil-blue hover:bg-takshashil-darkBlue text-white">
-                      <a href="#apply">
-                        Apply Now
-                        <Users className="ml-2 h-5 w-5" />
-                      </a>
+                    <Button 
+                      onClick={() => setFormSubmitted(false)}
+                      className="bg-takshashil-blue hover:bg-takshashil-darkBlue text-white"
+                    >
+                      Submit Another Application
                     </Button>
                   </div>
-                  
-                  <div>
-                    <div className="relative">
-                      <div className="absolute inset-0 bg-takshashil-blue/20 rounded-xl -translate-x-4 -translate-y-4"></div>
-                      <img 
-                        src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" 
-                        alt="Volunteers at Takshashil Foundation" 
-                        className="rounded-xl shadow-xl relative z-10 w-full h-auto object-cover"
-                      />
+                ) : (
+                  <form onSubmit={handleSubmit} className="space-y-8">
+                    <div>
+                      <h3 className="text-lg font-semibold mb-4 text-takshashil-navy">
+                        Personal Information
+                      </h3>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                          <label htmlFor="firstName" className="block text-sm font-medium text-gray-700 mb-1">
+                            First Name *
+                          </label>
+                          <input
+                            type="text"
+                            id="firstName"
+                            value={formData.firstName}
+                            onChange={handleChange}
+                            required
+                            className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-takshashil-blue focus:border-transparent"
+                          />
+                        </div>
+                        <div>
+                          <label htmlFor="lastName" className="block text-sm font-medium text-gray-700 mb-1">
+                            Last Name *
+                          </label>
+                          <input
+                            type="text"
+                            id="lastName"
+                            value={formData.lastName}
+                            onChange={handleChange}
+                            required
+                            className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-takshashil-blue focus:border-transparent"
+                          />
+                        </div>
+                        <div>
+                          <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
+                            Email Address *
+                          </label>
+                          <input
+                            type="email"
+                            id="email"
+                            value={formData.email}
+                            onChange={handleChange}
+                            required
+                            className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-takshashil-blue focus:border-transparent"
+                          />
+                        </div>
+                        <div>
+                          <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-1">
+                            Phone Number *
+                          </label>
+                          <input
+                            type="tel"
+                            id="phone"
+                            value={formData.phone}
+                            onChange={handleChange}
+                            required
+                            className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-takshashil-blue focus:border-transparent"
+                          />
+                        </div>
+                        <div className="md:col-span-2">
+                          <label htmlFor="address" className="block text-sm font-medium text-gray-700 mb-1">
+                            Address
+                          </label>
+                          <input
+                            type="text"
+                            id="address"
+                            value={formData.address}
+                            onChange={handleChange}
+                            className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-takshashil-blue focus:border-transparent"
+                          />
+                        </div>
+                      </div>
                     </div>
-                  </div>
-                </div>
+                    
+                    <div>
+                      <h3 className="text-lg font-semibold mb-4 text-takshashil-navy">
+                        Volunteer Information
+                      </h3>
+                      <div className="space-y-6">
+                        <div>
+                          <label htmlFor="interest" className="block text-sm font-medium text-gray-700 mb-1">
+                            Areas of Interest *
+                          </label>
+                          <input
+                            type="text"
+                            id="interest"
+                            value={formData.interest}
+                            onChange={handleChange}
+                            required
+                            placeholder="e.g., Library management, Teaching, Event organization"
+                            className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-takshashil-blue focus:border-transparent"
+                          />
+                        </div>
+                        
+                        <div>
+                          <label htmlFor="experience" className="block text-sm font-medium text-gray-700 mb-1">
+                            Relevant Experience
+                          </label>
+                          <input
+                            type="text"
+                            id="experience"
+                            value={formData.experience}
+                            onChange={handleChange}
+                            placeholder="Any previous volunteer or relevant work experience"
+                            className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-takshashil-blue focus:border-transparent"
+                          />
+                        </div>
+                        
+                        <div>
+                          <label htmlFor="availability" className="block text-sm font-medium text-gray-700 mb-1">
+                            Availability *
+                          </label>
+                          <select
+                            id="availability"
+                            value={formData.availability}
+                            onChange={handleChange}
+                            required
+                            className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-takshashil-blue focus:border-transparent"
+                          >
+                            <option value="weekends">Weekends</option>
+                            <option value="weekdays">Weekdays</option>
+                            <option value="evenings">Evenings</option>
+                            <option value="flexible">Flexible</option>
+                          </select>
+                        </div>
+                        
+                        <div>
+                          <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-1">
+                            Why do you want to volunteer with us?
+                          </label>
+                          <textarea
+                            id="message"
+                            value={formData.message}
+                            onChange={handleChange}
+                            rows={4}
+                            className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-takshashil-blue focus:border-transparent"
+                          ></textarea>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <div className="flex justify-center">
+                      <Button 
+                        type="submit"
+                        className="bg-takshashil-blue hover:bg-takshashil-darkBlue text-white px-8 py-6 text-lg"
+                        disabled={isSubmitting}
+                      >
+                        {isSubmitting ? "Submitting..." : "Submit Application"}
+                        <Send className="ml-2 h-5 w-5" />
+                      </Button>
+                    </div>
+                  </form>
+                )}
               </div>
             </div>
           </div>
         </section>
         
-        {/* Volunteer Roles */}
+        {/* Volunteer Roles Section */}
         <section className="py-16 md:py-24">
           <div className="container mx-auto px-4">
             <div className="max-w-5xl mx-auto">
@@ -174,206 +320,33 @@ const Volunteer = () => {
           </div>
         </section>
         
-        {/* Benefits */}
-        <section className="py-16 md:py-24 bg-gradient-to-b from-white to-blue-50">
+        {/* Volunteer Stories Section */}
+        <section className="py-16 md:py-24 bg-takshashil-blue/5">
           <div className="container mx-auto px-4">
             <div className="max-w-5xl mx-auto">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-                <div>
-                  <div className="inline-block px-3 py-1 mb-4 rounded-full bg-takshashil-blue/10 text-takshashil-blue text-sm font-medium">
-                    Why Volunteer With Us
-                  </div>
-                  <h2 className="text-2xl md:text-3xl font-bold mb-4 text-takshashil-navy">
-                    Benefits of Volunteering
-                  </h2>
-                  <p className="text-gray-600 mb-6">
-                    Beyond the satisfaction of making a difference, volunteering with 
-                    Takshashil Foundation offers numerous personal and professional benefits.
-                  </p>
-                  
-                  <div className="space-y-4">
-                    {benefits.map((benefit, index) => (
-                      <div key={index} className="flex items-start space-x-3">
-                        <CheckCircle2 className="h-6 w-6 text-takshashil-blue flex-shrink-0 mt-1" />
-                        <p className="text-gray-700">{benefit}</p>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-                
-                <div>
-                  <div className="space-y-6">
-                    {testimonials.map((testimonial, index) => (
-                      <div 
-                        key={index}
-                        className="glass-card p-6 rounded-xl shadow-md"
-                      >
-                        <svg
-                          className="h-8 w-8 text-takshashil-gold mb-4 opacity-50"
-                          fill="currentColor"
-                          viewBox="0 0 32 32"
-                          aria-hidden="true"
-                        >
-                          <path d="M9.352 4C4.456 7.456 1 13.12 1 19.36c0 5.088 3.072 8.064 6.624 8.064 3.36 0 5.856-2.688 5.856-5.856 0-3.168-2.208-5.472-5.088-5.472-.576 0-1.344.096-1.536.192.48-3.264 3.552-7.104 6.624-9.024L9.352 4zm16.512 0c-4.8 3.456-8.256 9.12-8.256 15.36 0 5.088 3.072 8.064 6.624 8.064 3.264 0 5.856-2.688 5.856-5.856 0-3.168-2.304-5.472-5.184-5.472-.576 0-1.248.096-1.44.192.48-3.264 3.456-7.104 6.528-9.024L25.864 4z" />
-                        </svg>
-                        <p className="text-gray-700 mb-4">
-                          "{testimonial.quote}"
-                        </p>
-                        <div className="flex items-center">
-                          <div className="ml-3">
-                            <p className="text-sm font-semibold text-takshashil-navy">
-                              {testimonial.name}
-                            </p>
-                            <p className="text-sm text-gray-500">
-                              {testimonial.role}
-                            </p>
-                          </div>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-        
-        {/* Application Form */}
-        <section id="apply" className="py-16 md:py-24">
-          <div className="container mx-auto px-4">
-            <div className="max-w-3xl mx-auto">
               <div className="text-center mb-16">
                 <h2 className="text-3xl md:text-4xl font-bold mb-4 text-takshashil-navy">
-                  Apply to <span className="text-takshashil-blue">Volunteer</span>
+                  Volunteer <span className="text-takshashil-blue">Stories</span>
                 </h2>
-                <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-                  Fill out the form below to express your interest in volunteering 
-                  with Takshashil Foundation.
+                <p className="text-lg text-gray-600 max-w-3xl mx-auto">
+                  Hear from our volunteers about how their work has made a difference.
                 </p>
               </div>
               
-              <div className="glass-card p-8 rounded-xl shadow-md">
-                <form className="space-y-6">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div>
-                      <label htmlFor="firstName" className="block text-sm font-medium text-gray-700 mb-1">
-                        First Name
-                      </label>
-                      <input
-                        type="text"
-                        id="firstName"
-                        className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-takshashil-blue focus:border-transparent"
-                        placeholder="Your first name"
-                      />
-                    </div>
-                    <div>
-                      <label htmlFor="lastName" className="block text-sm font-medium text-gray-700 mb-1">
-                        Last Name
-                      </label>
-                      <input
-                        type="text"
-                        id="lastName"
-                        className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-takshashil-blue focus:border-transparent"
-                        placeholder="Your last name"
-                      />
-                    </div>
-                  </div>
-                  
-                  <div>
-                    <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
-                      Email Address
-                    </label>
-                    <input
-                      type="email"
-                      id="email"
-                      className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-takshashil-blue focus:border-transparent"
-                      placeholder="Your email address"
-                    />
-                  </div>
-                  
-                  <div>
-                    <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-1">
-                      Phone Number
-                    </label>
-                    <input
-                      type="tel"
-                      id="phone"
-                      className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-takshashil-blue focus:border-transparent"
-                      placeholder="Your phone number"
-                    />
-                  </div>
-                  
-                  <div>
-                    <label htmlFor="role" className="block text-sm font-medium text-gray-700 mb-1">
-                      Preferred Role
-                    </label>
-                    <select
-                      id="role"
-                      className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-takshashil-blue focus:border-transparent"
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                {testimonials.map((testimonial, index) => (
+                  <div 
+                    key={index}
+                    className="glass-card p-6 rounded-xl shadow-md"
+                  >
+                    <svg
+                      className="h-8 w-8 text-takshashil-gold mb-4 opacity-50"
+                      fill="currentColor"
+                      viewBox="0 0 32 32"
+                      aria-hidden="true"
                     >
-                      <option value="">Select your preferred role</option>
-                      <option value="library">Library Assistant</option>
-                      <option value="mentor">Subject Mentor</option>
-                      <option value="event">Event Organizer</option>
-                      <option value="outreach">Community Outreach</option>
-                      <option value="other">Other</option>
-                    </select>
-                  </div>
-                  
-                  <div>
-                    <label htmlFor="availability" className="block text-sm font-medium text-gray-700 mb-1">
-                      Availability
-                    </label>
-                    <select
-                      id="availability"
-                      className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-takshashil-blue focus:border-transparent"
-                    >
-                      <option value="">Select your availability</option>
-                      <option value="weekdays">Weekdays</option>
-                      <option value="weekends">Weekends</option>
-                      <option value="both">Both Weekdays and Weekends</option>
-                      <option value="flexible">Flexible</option>
-                    </select>
-                  </div>
-                  
-                  <div>
-                    <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-1">
-                      Why do you want to volunteer with us?
-                    </label>
-                    <textarea
-                      id="message"
-                      rows={4}
-                      className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-takshashil-blue focus:border-transparent"
-                      placeholder="Tell us a bit about yourself and why you're interested in volunteering"
-                    ></textarea>
-                  </div>
-                  
-                  <div className="text-center pt-4">
-                    <Button className="bg-takshashil-blue hover:bg-takshashil-darkBlue text-white px-6 py-6 w-full md:w-auto">
-                      Submit Application
-                    </Button>
-                  </div>
-                </form>
-              </div>
-            </div>
-          </div>
-        </section>
-        
-        {/* Quote Section */}
-        <section className="py-16 md:py-24 bg-takshashil-blue/5">
-          <div className="container mx-auto px-4">
-            <Quote 
-              quote="Be Educated, Be Organized, Be Agitated."
-              author="Dr. B.R. Ambedkar"
-              className="max-w-3xl mx-auto"
-            />
-          </div>
-        </section>
-      </main>
-      
-      <Footer />
-    </div>
-  );
-};
+                      <path d="M9.352 4C4.456 7.456 1 13.12 1 19.36c0 5.088 3.072 8.064 6.624 8.064 3.36 0 5.856-2.688 5.856-5.856 0-3.168-2.208-5.472-5.088-5.472-.576 0-1.344.096-1.536.192.48-3.264 3.552-7.104-6.624-9.024L9.352 4zm16.512 0c-4.8 3.456-8.256 9.12-8.256 15.36 0 5.088 3.072 8.064 6.624 8.064 3.264 0 5.856-2.688 5.856-5.856 0-3.168-2.304-5.472-5.184-5.472-.576 0-1.248.096-1.44.192.48-3.264 3.456-7.104 6.528-9.024L25.864 4z" />
+                    </svg>
+                    <p className="text-gray-700 mb-4">
+                      "{
 
-export default Volunteer;

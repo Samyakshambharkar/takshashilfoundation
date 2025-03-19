@@ -2,6 +2,7 @@
 import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
+import FlyingBooks from "./FlyingBooks";
 
 const Hero = () => {
   return (
@@ -10,7 +11,10 @@ const Hero = () => {
       <div className="absolute top-0 right-0 -translate-y-1/4 translate-x-1/4 opacity-20 blur-3xl w-96 h-96 rounded-full bg-takshashil-blue" />
       <div className="absolute bottom-0 left-0 translate-y-1/4 -translate-x-1/4 opacity-20 blur-3xl w-96 h-96 rounded-full bg-takshashil-gold" />
       
-      <div className="container mx-auto px-4">
+      {/* Flying Books Animation */}
+      <FlyingBooks />
+      
+      <div className="container mx-auto px-4 relative z-10">
         <div className="max-w-4xl mx-auto text-center">
           <div className="inline-block px-3 py-1 mb-6 rounded-full bg-takshashil-blue/10 text-takshashil-blue text-sm font-medium animate-fade-in">
             Empowering Communities Through Education
