@@ -19,6 +19,10 @@ export default {
 			}
 		},
 		extend: {
+			fontFamily: {
+				poppins: ['Poppins', 'sans-serif'],
+				playfair: ['Playfair Display', 'serif'],
+			},
 			colors: {
 				border: 'hsl(var(--border))',
 				input: 'hsl(var(--input))',
@@ -130,6 +134,31 @@ export default {
 					'100%': {
 						'background-position': '100% 50%'
 					}
+				},
+				'float': {
+					'0%, 100%': {
+						transform: 'translateY(0px)'
+					},
+					'50%': {
+						transform: 'translateY(-10px)'
+					}
+				},
+				'truck-animation': {
+					'0%': {
+						transform: 'translateX(0) translateY(0) rotate(0deg)'
+					},
+					'25%': {
+						transform: 'translateX(25%) translateY(-10px) rotate(5deg)'
+					},
+					'50%': {
+						transform: 'translateX(50%) translateY(0) rotate(0deg)'
+					},
+					'75%': {
+						transform: 'translateX(75%) translateY(-10px) rotate(-5deg)'
+					},
+					'100%': {
+						transform: 'translateX(100%) translateY(0) rotate(0deg)'
+					}
 				}
 			},
 			animation: {
@@ -138,7 +167,11 @@ export default {
 				'fade-in': 'fade-in 0.5s ease-out forwards',
 				'fade-out': 'fade-out 0.5s ease-out forwards',
 				'slide-in': 'slide-in 0.6s ease-out',
-				'text-shimmer': 'text-shimmer 2.5s ease-in-out infinite'
+				'text-shimmer': 'text-shimmer 2.5s ease-in-out infinite',
+				'float': 'float 4s ease-in-out infinite',
+				'float-delay-1': 'float 4s ease-in-out 0.5s infinite',
+				'float-delay-2': 'float 4s ease-in-out 1s infinite',
+				'truck-animation': 'truck-animation 1s forwards cubic-bezier(0.68, -0.55, 0.27, 1.55)'
 			}
 		}
 	},

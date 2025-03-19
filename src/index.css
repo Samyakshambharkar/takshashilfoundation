@@ -1,4 +1,6 @@
 
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -72,7 +74,10 @@
     @apply border-border;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-poppins;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-playfair;
   }
 }
 
@@ -209,4 +214,85 @@
 
 .animate-scale-in {
   animation: scale-in 0.3s forwards;
+}
+
+/* Cart animation */
+@keyframes cart-animation {
+  0% {
+    transform: translate(0, 0) scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: translate(var(--tx), var(--ty)) scale(0.5);
+    opacity: 0.8;
+  }
+  100% {
+    transform: translate(var(--tx), var(--ty)) scale(0);
+    opacity: 0;
+  }
+}
+
+.cart-animation {
+  position: fixed;
+  z-index: 100;
+  animation: cart-animation 1s forwards cubic-bezier(0.68, -0.55, 0.27, 1.55);
+}
+
+/* Improve button styles */
+.btn-primary {
+  @apply bg-takshashil-blue hover:bg-takshashil-darkBlue text-white px-6 py-3 rounded-lg transition-all duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-1 font-medium;
+}
+
+.btn-secondary {
+  @apply border-2 border-takshashil-blue text-takshashil-blue hover:bg-takshashil-blue/10 px-6 py-3 rounded-lg transition-all duration-300 shadow-sm hover:shadow-md transform hover:-translate-y-1 font-medium;
+}
+
+/* New fancy card styles */
+.fancy-card {
+  @apply relative overflow-hidden rounded-2xl shadow-xl transition-all duration-300 hover:shadow-2xl;
+  background: linear-gradient(145deg, rgba(255,255,255,1) 0%, rgba(240,249,255,1) 100%);
+}
+
+.fancy-card::before {
+  content: '';
+  @apply absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-takshashil-blue to-takshashil-lightBlue;
+}
+
+/* Link hover effect */
+.link-underline {
+  @apply relative;
+}
+
+.link-underline::after {
+  content: '';
+  @apply absolute left-0 bottom-0 w-0 h-0.5 bg-takshashil-blue transition-all duration-300 ease-in-out;
+}
+
+.link-underline:hover::after {
+  @apply w-full;
+}
+
+/* Animation for floating elements */
+@keyframes float {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+.animate-float {
+  animation: float 4s ease-in-out infinite;
+}
+
+.animate-float-delay-1 {
+  animation: float 4s ease-in-out 0.5s infinite;
+}
+
+.animate-float-delay-2 {
+  animation: float 4s ease-in-out 1s infinite;
 }

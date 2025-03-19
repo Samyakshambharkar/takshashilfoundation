@@ -1,7 +1,7 @@
 
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Menu, X } from "lucide-react";
+import { Menu, X, BookOpen } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const Navbar = () => {
@@ -40,18 +40,23 @@ const Navbar = () => {
     <nav
       className={`fixed top-0 z-50 w-full transition-all duration-300 ${
         isScrolled
-          ? "bg-white/80 backdrop-blur-md shadow-sm py-3"
+          ? "bg-white/80 backdrop-blur-md shadow-md py-3"
           : "bg-transparent py-5"
       }`}
     >
       <div className="container px-4 mx-auto flex items-center justify-between">
         <Link to="/" className="flex items-center space-x-2">
-          <span className="text-2xl font-bold text-takshashil-blue">
-            Takshashil
-          </span>
-          <span className="text-xl text-takshashil-gold font-semibold">
-            Foundation
-          </span>
+          <div className="bg-takshashil-blue text-white p-2 rounded-md">
+            <BookOpen className="h-6 w-6" />
+          </div>
+          <div>
+            <span className="text-2xl font-bold text-takshashil-blue font-playfair">
+              Takshashil
+            </span>
+            <span className="text-xl text-takshashil-gold font-semibold font-playfair ml-1">
+              Foundation
+            </span>
+          </div>
         </Link>
 
         {/* Desktop navigation */}
@@ -69,7 +74,7 @@ const Navbar = () => {
               {item.name}
             </Link>
           ))}
-          <Button className="bg-takshashil-blue hover:bg-takshashil-darkBlue text-white transition-all duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-[2px]">
+          <Button className="btn-primary">
             Donate
           </Button>
         </div>
@@ -92,7 +97,7 @@ const Navbar = () => {
       {/* Mobile menu */}
       {isMenuOpen && (
         <div className="md:hidden">
-          <div className="glass-card px-2 pb-3 pt-2 mt-1 space-y-1 sm:px-3 animate-fade-in">
+          <div className="glass-card px-2 pb-3 pt-2 mt-1 space-y-1 sm:px-3 animate-fade-in shadow-lg rounded-b-xl">
             {navigation.map((item) => (
               <Link
                 key={item.name}
@@ -107,7 +112,7 @@ const Navbar = () => {
               </Link>
             ))}
             <div className="px-3 py-3">
-              <Button className="w-full bg-takshashil-blue hover:bg-takshashil-darkBlue text-white">
+              <Button className="w-full btn-primary">
                 Donate
               </Button>
             </div>
