@@ -1,9 +1,78 @@
+
 import { useEffect, useState } from "react";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import { Button } from "@/components/ui/button";
-import { CheckCircle, Send } from "lucide-react";
+import { CheckCircle, Send, Book, Calendar, Users, Heart, Star, Pencil, HeartHandshake, School } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+
+// Define volunteer roles data
+const roles = [
+  {
+    title: "Library Assistant",
+    description: "Help manage our library resources, assist visitors in finding books, and maintain our catalog system.",
+    commitment: "4-8 hours/week",
+    icon: Book
+  },
+  {
+    title: "Study Mentor",
+    description: "Guide students in their studies, provide academic support, and help with exam preparation.",
+    commitment: "6-10 hours/week",
+    icon: School
+  },
+  {
+    title: "Event Coordinator",
+    description: "Plan and organize educational events, workshops, and community gatherings.",
+    commitment: "Flexible",
+    icon: Calendar
+  },
+  {
+    title: "Outreach Volunteer",
+    description: "Help spread awareness about our foundation's mission and connect with marginalized communities.",
+    commitment: "3-6 hours/week",
+    icon: HeartHandshake
+  },
+  {
+    title: "Digital Content Creator",
+    description: "Create educational content, manage social media, and help with our online presence.",
+    commitment: "5-8 hours/week",
+    icon: Pencil
+  },
+  {
+    title: "Administrative Support",
+    description: "Assist with day-to-day operations, record keeping, and general administrative tasks.",
+    commitment: "4-8 hours/week",
+    icon: Users
+  }
+];
+
+// Define volunteer testimonials
+const testimonials = [
+  {
+    quote: "Volunteering at Takshashil has been the most rewarding experience of my life. Seeing the impact of education on these young minds is truly transformative.",
+    name: "Priya Sharma",
+    role: "Library Assistant",
+    duration: "2 years"
+  },
+  {
+    quote: "As a study mentor, I've been able to share my knowledge while learning so much from the students. Their determination inspires me every day.",
+    name: "Rajesh Kumar",
+    role: "Study Mentor",
+    duration: "1.5 years"
+  },
+  {
+    quote: "The foundation provides a supportive environment where volunteers can truly make a difference. I'm proud to be part of such a meaningful initiative.",
+    name: "Anjali Desai",
+    role: "Event Coordinator",
+    duration: "3 years"
+  },
+  {
+    quote: "Working with Takshashil has helped me understand the power of education in transforming lives and communities. It's been an eye-opening journey.",
+    name: "Vikram Singh",
+    role: "Outreach Volunteer",
+    duration: "1 year"
+  }
+];
 
 const Volunteer = () => {
   const { toast } = useToast();
@@ -348,5 +417,29 @@ const Volunteer = () => {
                       <path d="M9.352 4C4.456 7.456 1 13.12 1 19.36c0 5.088 3.072 8.064 6.624 8.064 3.36 0 5.856-2.688 5.856-5.856 0-3.168-2.208-5.472-5.088-5.472-.576 0-1.344.096-1.536.192.48-3.264 3.552-7.104-6.624-9.024L9.352 4zm16.512 0c-4.8 3.456-8.256 9.12-8.256 15.36 0 5.088 3.072 8.064 6.624 8.064 3.264 0 5.856-2.688 5.856-5.856 0-3.168-2.304-5.472-5.184-5.472-.576 0-1.248.096-1.44.192.48-3.264 3.456-7.104 6.528-9.024L25.864 4z" />
                     </svg>
                     <p className="text-gray-700 mb-4">
-                      "{
+                      "{testimonial.quote}"
+                    </p>
+                    <div className="flex items-center">
+                      <div className="ml-3">
+                        <p className="text-sm font-semibold text-takshashil-navy">
+                          {testimonial.name}
+                        </p>
+                        <p className="text-xs text-gray-500">
+                          {testimonial.role}, {testimonial.duration}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+      
+      <Footer />
+    </div>
+  );
+};
 
+export default Volunteer;
