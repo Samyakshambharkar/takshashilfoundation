@@ -1,17 +1,24 @@
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import Quote from "@/components/ui/Quote";
+import BookCatalog from "@/components/library/BookCatalog";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, BookOpen, Search, Download, BookText } from "lucide-react";
 import { Link } from "react-router-dom";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { toast } from "sonner";
 
 const Library = () => {
   // Scroll to top on page load
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+  
+  const [searchQuery, setSearchQuery] = useState("");
+  const [isBookCatalogOpen, setIsBookCatalogOpen] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState("");
   
   const categories = [
     {
@@ -52,6 +59,32 @@ const Library = () => {
     },
   ];
 
+  const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      setSelectedCategory("All");
+      setIsBookCatalogOpen(true);
+    } else {
+      toast.error("Please enter a search term");
+    }
+  };
+
+  const handleCategoryClick = (categoryName: string) => {
+    setSelectedCategory(categoryName);
+    setIsBookCatalogOpen(true);
+  };
+
+  const handleDownloadCatalog = () => {
+    setSelectedCategory("All");
+    setIsBookCatalogOpen(true);
+    setTimeout(() => {
+      const downloadButton = document.querySelector("[data-download-catalog]");
+      if (downloadButton && downloadButton instanceof HTMLElement) {
+        downloadButton.click();
+      }
+    }, 100);
+  };
+
   return (
     <div className="min-h-screen flex flex-col">
       <Navbar />
@@ -82,14 +115,21 @@ const Library = () => {
                       </p>
                     </div>
                     <div className="w-full md:w-auto">
-                      <div className="relative">
+                      <form onSubmit={handleSearch} className="relative">
                         <input
                           type="text"
+                          value={searchQuery}
+                          onChange={(e) => setSearchQuery(e.target.value)}
                           placeholder="Search for books..."
                           className="w-full md:w-80 px-4 py-3 pr-10 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-takshashil-blue focus:border-transparent"
                         />
-                        <Search className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
-                      </div>
+                        <button 
+                          type="submit"
+                          className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-takshashil-blue"
+                        >
+                          <Search className="h-5 w-5" />
+                        </button>
+                      </form>
                     </div>
                   </div>
                 </div>
@@ -113,7 +153,7 @@ const Library = () => {
               </div>
               
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-                {categories.map((category, index) => (
+                {categories.map((category) => (
                   <div 
                     key={category.name}
                     className="glass-card rounded-xl shadow-md overflow-hidden transition-transform duration-300 hover:translate-y-[-5px]"
@@ -128,7 +168,11 @@ const Library = () => {
                       <p className="text-gray-600 mb-4">
                         <span className="font-medium text-takshashil-blue">{category.count}+</span> resources available
                       </p>
-                      <Button variant="outline" className="w-full border-takshashil-blue text-takshashil-blue hover:bg-takshashil-blue/5">
+                      <Button 
+                        variant="outline" 
+                        className="w-full border-takshashil-blue text-takshashil-blue hover:bg-takshashil-blue/5"
+                        onClick={() => handleCategoryClick(category.name)}
+                      >
                         Explore Category
                       </Button>
                     </div>
@@ -251,7 +295,10 @@ const Library = () => {
               <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
                 Get a comprehensive list of all available books and resources in our library.
               </p>
-              <Button className="bg-white hover:bg-gray-100 text-takshashil-navy px-6 py-6 text-base inline-flex items-center">
+              <Button 
+                className="bg-white hover:bg-gray-100 text-takshashil-navy px-6 py-6 text-base inline-flex items-center"
+                onClick={handleDownloadCatalog}
+              >
                 Download Catalog
                 <Download className="ml-2 h-5 w-5" />
               </Button>
@@ -269,6 +316,16 @@ const Library = () => {
             />
           </div>
         </section>
+        
+        {/* Book Catalog Dialog */}
+        <Dialog open={isBookCatalogOpen} onOpenChange={setIsBookCatalogOpen}>
+          <DialogContent className="sm:max-w-[900px] p-0 overflow-hidden">
+            <BookCatalog 
+              category={selectedCategory} 
+              onClose={() => setIsBookCatalogOpen(false)} 
+            />
+          </DialogContent>
+        </Dialog>
       </main>
       
       <Footer />
