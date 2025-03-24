@@ -1,4 +1,3 @@
-
 import { Link } from "react-router-dom";
 import { 
   Facebook, 
@@ -10,6 +9,8 @@ import {
   MapPin 
 } from "lucide-react";
 
+const LOGO_URL = "/lovable-uploads/a506a1a6-350c-4832-b2d1-cf784ce81a59.png";
+
 const Footer = () => {
   return (
     <footer className="bg-takshashil-navy text-white pt-16 pb-8">
@@ -18,11 +19,15 @@ const Footer = () => {
           <div>
             <div className="mb-4">
               <Link to="/" className="flex items-center space-x-2">
-                <span className="text-2xl font-bold text-white">
-                  Takshashil
-                </span>
-                <span className="text-xl text-takshashil-gold font-semibold">
-                  Foundation
+                <div className="w-10 h-10 flex items-center justify-center overflow-hidden">
+                  <img 
+                    src={LOGO_URL} 
+                    alt="Takshashil Foundation Logo" 
+                    className="w-full h-full object-contain"
+                  />
+                </div>
+                <span className="text-2xl font-bold text-white font-poppins">
+                  Takshashil Foundation
                 </span>
               </Link>
             </div>

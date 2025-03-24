@@ -1,12 +1,10 @@
-
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Menu, X, BookOpen } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import DonationForm from "../donation/DonationForm";
 
-// Logo can be replaced with custom logo image later
-const LOGO_URL = "/placeholder.svg";
+const LOGO_URL = "/lovable-uploads/a506a1a6-350c-4832-b2d1-cf784ce81a59.png";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -55,34 +53,21 @@ const Navbar = () => {
         }`}
       >
         <div className="container px-4 mx-auto flex items-center justify-between">
-          <Link to="/" className="flex items-center space-x-2">
-            {/* Custom logo image (can be replaced by site admin) */}
-            <div className="w-10 h-10 bg-takshashil-blue rounded-md flex items-center justify-center overflow-hidden">
+          <Link to="/" className="flex items-center space-x-3">
+            <div className="w-12 h-12 flex items-center justify-center overflow-hidden">
               <img 
                 src={LOGO_URL} 
-                alt="Takshashil Logo" 
-                className="w-6 h-6 object-contain"
-                onError={(e) => {
-                  e.currentTarget.onerror = null;
-                  e.currentTarget.src = '';
-                  e.currentTarget.parentElement?.classList.add('fallback-logo');
-                  const fallbackIcon = document.createElement('div');
-                  fallbackIcon.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-6 w-6 text-white"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>';
-                  e.currentTarget.parentElement?.appendChild(fallbackIcon);
-                }}
+                alt="Takshashil Foundation Logo" 
+                className="w-full h-full object-contain"
               />
             </div>
-            <div>
-              <span className="text-2xl font-bold text-takshashil-blue font-playfair">
-                Takshashil
-              </span>
-              <span className="text-xl text-takshashil-gold font-semibold font-playfair ml-1">
-                Foundation
+            <div className="flex items-center">
+              <span className="text-2xl font-bold text-takshashil-blue font-poppins">
+                Takshashil Foundation
               </span>
             </div>
           </Link>
 
-          {/* Desktop navigation */}
           <div className="hidden md:flex items-center space-x-8">
             {navigation.map((item) => (
               <Link
@@ -105,7 +90,6 @@ const Navbar = () => {
             </Button>
           </div>
 
-          {/* Mobile menu button */}
           <div className="md:hidden">
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
@@ -120,7 +104,6 @@ const Navbar = () => {
           </div>
         </div>
 
-        {/* Mobile menu */}
         {isMenuOpen && (
           <div className="md:hidden">
             <div className="glass-card px-2 pb-3 pt-2 mt-1 space-y-1 sm:px-3 animate-fade-in shadow-lg rounded-b-xl">
@@ -150,7 +133,6 @@ const Navbar = () => {
         )}
       </nav>
       
-      {/* Donation Form Dialog */}
       <DonationForm 
         isOpen={isDonationFormOpen} 
         onClose={() => setIsDonationFormOpen(false)} 
